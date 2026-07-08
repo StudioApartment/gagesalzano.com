@@ -1,0 +1,299 @@
+@font-face {
+  font-family: "Guyot Text";
+  src: url("https://type.cargo.site/files/GuyotText-Regular.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Guyot Text";
+  src: url("https://type.cargo.site/files/GuyotText-Italic.woff") format("woff");
+  font-style: italic;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Diatype Variable";
+  src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 200 1000;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  min-height: 100vh;
+  font-family: "Guyot Text", Georgia, serif;
+  font-size: 16px;
+  line-height: 1.45;
+  color: rgba(0, 0, 0, 0.85);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+a:active { opacity: 0.7; }
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.left-column {
+  width: 42%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 2rem;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+.portrait {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0;
+}
+
+.portrait-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: calc(100% - 2rem);
+  max-height: calc(100% - 2rem);
+}
+
+.portrait img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.photo-credit {
+  margin-top: 0.35rem;
+  font-family: "Diatype Variable", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.right-column {
+  width: 58%;
+  margin-left: 42%;
+  padding: 3.5rem 4rem;
+}
+
+h2 {
+  font-family: "Diatype Variable", sans-serif;
+  font-weight: 450;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  color: rgba(0, 0, 0, 0.75);
+  margin-bottom: 0.15rem;
+}
+
+.subtitle {
+  font-family: "Diatype Variable", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.43);
+  margin-bottom: 0.75rem;
+}
+
+.bio {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.85);
+  margin: 5rem 0 0.5rem 0;
+}
+
+.section-title {
+  font-family: "Diatype Variable", sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.85);
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.client-card {
+  text-decoration: none;
+}
+
+.client-card img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.client-name {
+  font-family: "Diatype Variable", sans-serif;
+  font-weight: 450;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.85);
+  display: block;
+  margin-bottom: 0;
+  line-height: 1.3;
+}
+
+.client-desc {
+  font-family: "Guyot Text", serif;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 1.4;
+  display: block;
+}
+
+.client-date {
+  font-style: italic;
+  font-size: 0.7rem;
+  color: rgba(0, 0, 0, 0.5);
+  display: block;
+  margin-top: 0.1rem;
+}
+
+.timeline-item {
+  margin-bottom: 1.75rem;
+  font-family: "Guyot Text", serif;
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+.timeline-item img {
+  height: 1.25rem;
+  width: auto;
+  vertical-align: middle;
+  margin-left: 0.35rem;
+}
+
+.timeline-date {
+  font-style: italic;
+  font-size: 0.7rem;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.timeline-clients {
+  font-family: "Diatype Variable", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.4);
+  display: block;
+  margin-top: 0.15rem;
+}
+
+.testimonials {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0 2.5rem 0;
+}
+
+.testimonial-quote {
+  font-family: "Guyot Text", serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.3;
+  margin-bottom: 0.35rem;
+}
+
+.testimonial-author {
+  font-size: 12px;
+  margin-bottom: 0.75rem;
+}
+
+.testimonial-logos {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.testimonial-logos img {
+  height: 1.2rem;
+  width: auto;
+}
+
+.contact-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.contact-label {
+  font-family: "Diatype Variable", sans-serif;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.85);
+  display: block;
+  margin-bottom: 0;
+  line-height: 1.2;
+}
+
+.contact-row a {
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.contact-row img {
+  height: 1rem;
+  width: auto;
+  vertical-align: middle;
+  margin-right: 0.2rem;
+}
+
+.footer {
+  font-family: "Diatype Variable", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.85);
+  font-style: normal;
+  margin-top: 3.5rem;
+}
+
+.mobile-portrait {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .container { flex-direction: column; }
+  .left-column {
+    display: none;
+  }
+  .right-column {
+    width: 100%;
+    margin-left: 0;
+    padding: 2rem;
+  }
+  .mobile-portrait {
+    display: block;
+    margin: 1.5rem 0;
+  }
+  .mobile-portrait img {
+    width: 100%;
+    border-radius: 0;
+  }
+  .mobile-portrait .photo-credit {
+    text-align: right;
+    margin-top: 0.35rem;
+  }
+  .clients-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonials { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-row { grid-template-columns: 1fr; gap: 1.5rem; }
+}
