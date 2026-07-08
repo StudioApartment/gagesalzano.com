@@ -65,12 +65,17 @@ a:active { opacity: 0.7; }
   max-height: calc(100% - 2rem);
 }
 
+.portrait picture,
+.mobile-portrait picture {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .portrait img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
 }
 
 .photo-credit {
@@ -139,9 +144,8 @@ hr {
   width: 100%;
   aspect-ratio: 4/3;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 0;
   margin-bottom: 0.5rem;
-  image-rendering: -webkit-optimize-contrast;
 }
 
 .client-name {
