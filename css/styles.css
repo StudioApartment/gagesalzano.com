@@ -15,6 +15,7 @@
   src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
   font-style: normal;
   font-weight: 200 1000;
+  font-display: swap;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,7 +41,7 @@ a:active { opacity: 0.7; }
 
 .intro {
   display: grid;
-  grid-template-columns: 42% 1fr;
+  grid-template-columns: 34% 1fr;
   grid-template-areas:
     "portrait header"
     "portrait bio";
@@ -52,7 +53,7 @@ a:active { opacity: 0.7; }
 
 .intro-header {
   grid-area: header;
-  padding-top: 3.25rem;
+  padding-top: 4.5rem;
 }
 
 .intro-portrait {
@@ -104,10 +105,10 @@ a:active { opacity: 0.7; }
 
 .threads-headline {
   font-family: "Guyot Text", Georgia, serif;
-  font-size: 2.6rem;
+  font-size: 3.75rem;
   font-style: italic;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
   color: rgba(0, 0, 0, 0.85);
   margin: 0 0 0.35rem 0;
 }
@@ -136,11 +137,12 @@ a:active { opacity: 0.7; }
 }
 
 h2 {
-  font-family: "Diatype Variable", sans-serif;
-  font-weight: 450;
+  font-family: "Diatype Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
   font-size: 1.75rem;
   line-height: 1.1;
-  color: rgba(0, 0, 0, 0.75);
+  letter-spacing: -0.01em;
+  color: rgba(0, 0, 0, 0.85);
   margin-bottom: 0.15rem;
 }
 
@@ -229,23 +231,55 @@ hr {
   margin-bottom: 1.25rem;
 }
 
-.clients-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem 1.25rem;
-  margin-bottom: 2rem;
+.clients-marquee {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0 -3rem 2rem;
+  padding: 0 0 0.25rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+}
+
+.clients-marquee::-webkit-scrollbar {
+  display: none;
+}
+
+.clients-marquee.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.clients-track {
+  display: flex;
+  width: max-content;
+}
+
+.clients-set {
+  display: flex;
+  gap: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .client-card {
   text-decoration: none;
+  flex: 0 0 220px;
+  width: 220px;
 }
 
 .client-card img {
   width: 100%;
-  aspect-ratio: 4/3;
+  aspect-ratio: 16/9;
   object-fit: cover;
   border-radius: 0;
   margin-bottom: 0.5rem;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients-marquee {
+    scroll-behavior: auto;
+  }
 }
 
 .client-name {
@@ -410,7 +444,13 @@ hr {
       "bio";
     gap: 1.25rem;
   }
-  .clients-grid { grid-template-columns: repeat(2, 1fr); }
+  .clients-marquee {
+    margin: 0 -1.25rem 2rem;
+  }
+  .client-card {
+    flex-basis: 180px;
+    width: 180px;
+  }
   .bg-testimonials {
     grid-template-columns: 1fr;
     gap: 3rem;
