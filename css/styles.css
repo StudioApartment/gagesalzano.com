@@ -17,6 +17,20 @@
   font-weight: 200 1000;
   font-display: swap;
 }
+@font-face {
+  font-family: "Dala Floda";
+  src: url("../fonts/DalaFlodaArabic-Medium-Web.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Control Upright";
+  src: url("../fonts/ControlUpright-Regular-Web.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -48,7 +62,7 @@ a:active { opacity: 0.7; }
   column-gap: 3rem;
   row-gap: 1rem;
   align-items: start;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
 }
 
 .intro-header {
@@ -90,7 +104,7 @@ a:active { opacity: 0.7; }
 .intro-bio {
   grid-area: bio;
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
   align-self: end;
 }
 
@@ -98,7 +112,7 @@ a:active { opacity: 0.7; }
   display: block;
   text-decoration: none;
   color: inherit;
-  margin: 1.25rem 0 0 0;
+  margin: 0.45rem 0 0 0;
   width: 100%;
   max-width: 100%;
 }
@@ -107,10 +121,14 @@ a:active { opacity: 0.7; }
   font-family: "Guyot Text", Georgia, serif;
   font-size: 3.75rem;
   font-style: italic;
-  line-height: 1.1;
+  line-height: 0.9;
   letter-spacing: -0.025em;
   color: rgba(0, 0, 0, 0.85);
   margin: 0 0 0.35rem 0;
+}
+
+.threads-headline .hang {
+  margin-left: -0.45em;
 }
 
 .threads-meta {
@@ -123,7 +141,7 @@ a:active { opacity: 0.7; }
 }
 
 .threads-meta img {
-  height: 0.9rem;
+  height: 1.15rem;
   width: auto;
   display: block;
 }
@@ -137,13 +155,13 @@ a:active { opacity: 0.7; }
 }
 
 h2 {
-  font-family: "Diatype Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 500;
-  font-size: 1.75rem;
+  font-family: "Control Upright", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 1.35rem;
   line-height: 1.1;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
   color: rgba(0, 0, 0, 0.85);
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.55rem;
 }
 
 .subtitle {
@@ -210,6 +228,7 @@ h2 {
 }
 
 .bio {
+  font-family: "Diatype Variable", sans-serif;
   font-size: 1rem;
   margin-bottom: 0;
   max-width: 60%;
@@ -220,6 +239,10 @@ hr {
   height: 1px;
   background: rgba(0, 0, 0, 0.85);
   margin: 6.5rem 0 0.5rem 0;
+}
+
+.content > hr:first-child {
+  margin-top: 1.5rem;
 }
 
 .section-title {
@@ -293,7 +316,7 @@ hr {
 }
 
 .client-desc {
-  font-family: "Guyot Text", serif;
+  font-family: "Diatype Variable", sans-serif;
   font-size: 12px;
   color: rgba(0, 0, 0, 0.85);
   line-height: 1.4;
@@ -301,9 +324,10 @@ hr {
 }
 
 .client-date {
+  font-family: "Guyot Text", Georgia, serif;
   font-style: italic;
   font-size: 0.7rem;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.85);
   display: block;
   margin-top: 0.1rem;
 }
