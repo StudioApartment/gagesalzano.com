@@ -55,8 +55,9 @@
   --page-pad-top: clamp(1.75rem, 5vw, 5rem);
   --page-pad-bottom: clamp(1.5rem, 3vw, 2rem);
   --intro-gap: clamp(1.5rem, 4vw, 5rem);
-  --intro-lede-size: clamp(1.65rem, 4.2vw, 2.4rem);
-  --lede-icon-size: clamp(1.65rem, 3.6vw, 2.15rem);
+  --intro-line-gap: 1.5rem;
+  --intro-lede-size: clamp(1.5rem, 3.8vw, 2.15rem);
+  --lede-icon-size: clamp(1.68rem, 3.8vw, 2.2rem);
   --threads-size: clamp(1.05rem, 2.4vw, 1.25rem);
 }
 
@@ -86,9 +87,12 @@ a:active { opacity: 0.7; }
 .intro {
   display: grid;
   grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
-  grid-template-areas: "portrait header";
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "portrait header"
+    "portrait threads";
   column-gap: var(--intro-gap);
-  row-gap: 1rem;
+  row-gap: 0.35rem;
   align-items: stretch;
   margin-bottom: 0;
   min-width: 0;
@@ -101,7 +105,6 @@ a:active { opacity: 0.7; }
   padding-top: clamp(0rem, 3vw, 3.5rem);
   padding-right: clamp(0rem, 3vw, 5rem);
   min-width: 0;
-  min-height: 100%;
 }
 
 .intro-portrait {
@@ -118,6 +121,53 @@ a:active { opacity: 0.7; }
   flex-direction: column;
   align-items: flex-end;
   margin: 0;
+}
+
+.portrait-reveal {
+  --reveal-x: -9999px;
+  --reveal-y: -9999px;
+  --reveal-r: clamp(5.5rem, 11vw, 8rem);
+  position: relative;
+  display: grid;
+  width: 100%;
+}
+
+.portrait-reveal img {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.portrait-alt {
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(
+    circle var(--reveal-r) at var(--reveal-x) var(--reveal-y),
+    #000 0%,
+    #000 82%,
+    rgba(0, 0, 0, 0.45) 94%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--reveal-r) at var(--reveal-x) var(--reveal-y),
+    #000 0%,
+    #000 82%,
+    rgba(0, 0, 0, 0.45) 94%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.portrait-reveal.is-hovering .portrait-alt {
+  opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .portrait-alt {
+    display: none;
+  }
 }
 
 .intro-portrait picture {
@@ -150,17 +200,18 @@ a:active { opacity: 0.7; }
 }
 
 .threads-post {
+  grid-area: threads;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  align-self: flex-start;
-  max-width: 100%;
+  align-self: end;
+  gap: 0.35rem;
+  max-width: min(22rem, 100%);
   text-decoration: none;
   color: inherit;
-  margin: auto 0 0 0;
+  margin: 0 0 0 -1rem;
   border-radius: 12px;
-  padding: 0.55rem 1rem 0.65rem;
-  margin-left: 0;
+  padding: 0.55rem 0.75rem 0.65rem 1rem;
   box-sizing: border-box;
   transition: background-color 0.15s ease;
 }
@@ -169,7 +220,51 @@ a:active { opacity: 0.7; }
   background: rgba(0, 0, 0, 0.07);
 }
 
-.threads-headline {
+.threads-label {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.threads-byline {
+  display: inline;
+  font-family: "Diatype Variable", sans-serif;
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(0, 0, 0, 0.85);
+  margin: 0;
+}
+
+.threads-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  font-family: "Diatype Variable", sans-serif;
+  font-size: 0.9rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(0, 0, 0, 0.85);
+  margin: 0;
+}
+
+.threads-meta img {
+  height: 1.05rem;
+  width: auto;
+  display: block;
+}
+
+.threads-handle {
+  font-weight: 650;
+  font-size: 1.08em;
+  letter-spacing: -0.01em;
+}
+
+.threads-quote {
   display: block;
   font-family: "PP Editorial New", Georgia, serif;
   font-size: var(--threads-size);
@@ -178,28 +273,12 @@ a:active { opacity: 0.7; }
   line-height: 1.25;
   letter-spacing: -0.02em;
   color: rgba(0, 0, 0, 0.85);
-  margin: 0;
+  margin: 0.15rem 0 0 0;
   text-align: left;
 }
 
-.threads-headline .hang {
+.threads-quote .hang {
   margin-left: -0.45em;
-}
-
-.threads-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: "Diatype Variable", sans-serif;
-  font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.85);
-  margin: 0.35rem 0 0 0;
-}
-
-.threads-meta img {
-  height: 1.15rem;
-  width: auto;
-  display: block;
 }
 
 .content {
@@ -225,7 +304,7 @@ h2 {
   font-style: normal;
   font-weight: 400;
   font-size: var(--intro-lede-size);
-  line-height: 1.22;
+  line-height: 1.32;
   letter-spacing: -0.02em;
   color: rgba(0, 0, 0, 0.85);
   margin: 0;
@@ -248,12 +327,16 @@ h2 {
   font-weight: 400;
 }
 
+.lede-copy:has(+ .lede-link) {
+  margin-right: 0.18em;
+}
+
 .lede-line {
   display: block;
 }
 
-.lede-line--gap {
-  margin-top: 20px;
+.intro-lede > .lede-line + .lede-line {
+  margin-top: var(--intro-line-gap);
 }
 
 .lede-link {
@@ -261,8 +344,9 @@ h2 {
   color: inherit;
   text-decoration: none;
   border-radius: 8px;
-  padding: 0.06em 0;
+  padding: 4px;
   margin: 0;
+  white-space: nowrap;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
   transition: background-color 0.15s ease;
@@ -271,20 +355,18 @@ h2 {
 .lede-link:hover {
   background: rgba(0, 0, 0, 0.07);
   color: #000;
-  padding: 0.06em 0.12em;
-  margin: 0 -0.12em;
 }
 
 .lede-mark {
   display: inline;
-  white-space: normal;
+  white-space: nowrap;
   vertical-align: baseline;
 }
 
 .lede-mark .lede-icon {
   display: inline-block;
   vertical-align: -0.14em;
-  margin-right: 0.12em;
+  margin-right: 0.24em;
 }
 
 .lede-title {
@@ -299,7 +381,7 @@ h2 {
   width: var(--lede-icon);
   height: var(--lede-icon);
   margin: 0;
-  border-radius: 10px;
+  border-radius: 7px;
   overflow: hidden;
   background: #e8e8ed;
   flex-shrink: 0;
@@ -359,6 +441,10 @@ hr {
   margin-bottom: 1.25rem;
 }
 
+.section-title--highlights {
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+}
+
 .clients-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -367,7 +453,7 @@ hr {
   max-width: 100%;
   column-gap: clamp(0.75rem, 2vw, 2rem);
   row-gap: clamp(1rem, 2.5vw, 1.25rem);
-  margin: clamp(2.5rem, 6vw, 5rem) 0 clamp(1.5rem, 4vw, 2.5rem);
+  margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
 }
 
 .client-card {
@@ -477,7 +563,7 @@ hr {
   z-index: 4;
   width: auto;
   max-width: min(20rem, 100%);
-  margin: 0.85rem 0 0;
+  margin: 0.4rem 0 0;
   padding: 0;
   font-family: "Guyot Text", Georgia, serif;
   font-size: 0.95rem;
@@ -492,9 +578,9 @@ hr {
 }
 
 .client-card:last-child .client-desc {
-  left: auto;
-  right: 0;
-  text-align: right;
+  left: 0;
+  right: auto;
+  text-align: left;
 }
 
 .client-card:hover .client-desc,
@@ -654,7 +740,7 @@ hr {
 .closing-cta {
   font-family: "Diatype Variable", sans-serif;
   font-size: 0.9rem;
-  margin-top: clamp(3rem, 8vw, 7.5rem);
+  margin-top: 1.25rem;
   margin-bottom: 0;
 }
 
@@ -662,12 +748,25 @@ hr {
   color: inherit;
 }
 
+.closing-prompt {
+  font-family: "Diatype Variable", sans-serif;
+  font-size: 0.9rem;
+  margin-top: var(--intro-line-gap);
+  margin-bottom: 0;
+}
+
+.closing-prompt a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+
 .footer {
   font-family: "Diatype Variable", sans-serif;
   font-size: 0.75rem;
   color: inherit;
   font-style: normal;
-  margin-top: 1.5rem;
+  margin-top: clamp(2.5rem, 6vw, 5rem);
   margin-bottom: 0;
 }
 
@@ -676,21 +775,75 @@ hr {
 }
 
 @media (max-width: 1200px) {
+  :root {
+    --intro-lede-size: clamp(1.32rem, 2.85vw, 1.75rem);
+    --lede-icon-size: clamp(1.45rem, 2.85vw, 1.8rem);
+    --intro-gap: clamp(1.25rem, 3vw, 3rem);
+  }
+
   .clients-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 1.75rem;
   }
 
   .intro {
     grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .intro-portrait {
+    justify-content: flex-start;
+  }
+
+  .portrait-figure {
+    align-items: flex-start;
+  }
+
+  .intro-header {
+    padding-top: 0;
+    padding-right: 0;
+    min-height: 0;
+  }
+
+  .client-card {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .client-meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .client-desc {
+    flex: 0 0 100%;
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    max-height: 0;
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.18s ease, max-height 0.22s ease, margin 0.18s ease;
+  }
+
+  .client-card:hover .client-desc,
+  .client-card:focus-visible .client-desc {
+    max-height: 8rem;
+    margin-top: 0.4rem;
+    opacity: 1;
   }
 }
 
 @media (max-width: 900px) {
   .intro {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
     grid-template-areas:
       "header"
-      "portrait";
+      "portrait"
+      "threads";
     gap: 1.5rem;
   }
 
@@ -706,13 +859,11 @@ hr {
   .intro-header {
     padding-top: 0;
     padding-right: 0;
-    min-height: 0;
   }
 
   .threads-post {
-    margin: 1.75rem 0 0 0;
-    padding-left: 0;
-    padding-right: 0;
+    align-self: flex-start;
+    margin: 0 0 0 -1rem;
   }
 
   .clients-grid {
@@ -750,8 +901,8 @@ hr {
 
 @media (max-width: 600px) {
   :root {
-    --intro-lede-size: clamp(1.45rem, 7.5vw, 1.85rem);
-    --lede-icon-size: clamp(1.45rem, 6.5vw, 1.85rem);
+    --intro-lede-size: clamp(1.32rem, 6.8vw, 1.65rem);
+    --lede-icon-size: clamp(1.5rem, 6.8vw, 1.9rem);
   }
 
   .clients-grid {
@@ -783,7 +934,7 @@ hr {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    margin-top: 0.5rem;
+    margin-top: 0.35rem;
     max-width: 100%;
   }
 
