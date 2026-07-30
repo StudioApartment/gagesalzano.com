@@ -130,14 +130,19 @@ a:active { opacity: 0.7; }
   position: relative;
   display: grid;
   width: 100%;
+  aspect-ratio: 3 / 4;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .portrait-reveal img {
   grid-area: 1 / 1;
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center center;
 }
 
 .portrait-alt {
@@ -162,12 +167,6 @@ a:active { opacity: 0.7; }
 
 .portrait-reveal.is-hovering .portrait-alt {
   opacity: 1;
-}
-
-@media (hover: none), (pointer: coarse) {
-  .portrait-alt {
-    display: none;
-  }
 }
 
 .intro-portrait picture {
@@ -340,21 +339,38 @@ h2 {
 }
 
 .lede-link {
+  position: relative;
   display: inline;
   color: inherit;
   text-decoration: none;
-  border-radius: 8px;
-  padding: 4px;
+  padding: 0;
   margin: 0;
   white-space: nowrap;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  z-index: 0;
+}
+
+.lede-link::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 10px;
+  top: -0.22em;
+  bottom: -0.1em;
+  left: calc(-0.1em - 2px);
+  right: calc(-0.1em - 2px);
+  transform: translateY(-2px);
+  background: transparent;
   transition: background-color 0.15s ease;
 }
 
-.lede-link:hover {
-  background: rgba(0, 0, 0, 0.07);
+.lede-link:hover,
+.lede-link:focus-visible {
   color: #000;
+}
+
+.lede-link:hover::before,
+.lede-link:focus-visible::before {
+  background: rgba(255, 248, 170, 0.85);
 }
 
 .lede-mark {
@@ -407,6 +423,12 @@ h2 {
 
 .lede-icon--studio {
   background: #111;
+}
+
+.lede-icon--hcef img {
+  object-fit: contain;
+  padding: 7%;
+  box-sizing: border-box;
 }
 
 .lede-icon--mail {
