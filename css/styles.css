@@ -236,11 +236,24 @@ h2 {
 
 .lede-name {
   font-family: inherit;
-  font-style: inherit;
+  font-style: normal;
   font-weight: 400;
   font-size: 1.1em;
   letter-spacing: -0.01em;
   color: rgba(0, 0, 0, 0.85);
+}
+
+.lede-copy {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.lede-line {
+  display: block;
+}
+
+.lede-line--gap {
+  margin-top: 20px;
 }
 
 .lede-link {
