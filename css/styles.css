@@ -59,6 +59,7 @@
   --intro-lede-size: clamp(1.5rem, 3.8vw, 2.15rem);
   --lede-icon-size: clamp(1.68rem, 3.8vw, 2.2rem);
   --threads-size: clamp(1.05rem, 2.4vw, 1.25rem);
+  --link-highlight: rgba(255, 248, 170, 0.85);
 }
 
 html, body {
@@ -73,8 +74,35 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: inherit; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 a:active { opacity: 0.7; }
+
+.content a:not(.client-card),
+.closing-prompt a {
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.content a:not(.client-card):hover,
+.content a:not(.client-card):focus-visible,
+.closing-prompt a:hover,
+.closing-prompt a:focus-visible {
+  color: #000;
+  background: var(--link-highlight);
+  text-decoration: none;
+}
+
+.threads-post:hover,
+.threads-post:focus-visible {
+  color: inherit;
+}
 
 .container {
   width: 100%;
@@ -215,8 +243,9 @@ a:active { opacity: 0.7; }
   transition: background-color 0.15s ease;
 }
 
-.threads-post:hover {
-  background: rgba(0, 0, 0, 0.07);
+.threads-post:hover,
+.threads-post:focus-visible {
+  background: var(--link-highlight);
 }
 
 .threads-label {
@@ -341,8 +370,6 @@ h2 {
 .lede-link {
   position: relative;
   display: inline;
-  color: inherit;
-  text-decoration: none;
   padding: 0;
   margin: 0;
   white-space: nowrap;
@@ -370,7 +397,7 @@ h2 {
 
 .lede-link:hover::before,
 .lede-link:focus-visible::before {
-  background: rgba(255, 248, 170, 0.85);
+  background: var(--link-highlight);
 }
 
 .lede-mark {
@@ -543,7 +570,8 @@ hr {
   border-radius: 0;
 }
 
-.client-card:hover {
+.client-card:hover,
+.client-card:focus-visible {
   z-index: 3;
 }
 
@@ -779,8 +807,6 @@ hr {
 
 .closing-prompt a {
   color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.12em;
 }
 
 .footer {

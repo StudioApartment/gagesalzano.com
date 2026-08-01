@@ -11,7 +11,11 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-MCFR2HFSX1');
+    gtag('config', 'G-MCFR2HFSX1', {
+      page_title: document.title,
+      page_location: window.location.href,
+      send_page_view: true
+    });
   </script>
 
   <link rel="stylesheet" href="css/styles.css">
