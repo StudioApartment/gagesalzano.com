@@ -88,7 +88,7 @@
       </figure>
     </aside>
 
-    <a class="threads-post" href="https://www.threads.com/@gagesalzano" target="_blank" rel="noopener">
+    <a class="threads-post" id="threads-post" href="https://www.threads.com/@gagesalzano/post/Dbhl-z5HMEk" target="_blank" rel="noopener">
       <span class="threads-label">
         <span class="threads-byline">Shitposting on</span>
         <span class="threads-meta">
@@ -96,7 +96,7 @@
           <span class="threads-handle">gagesalzano</span>
         </span>
       </span>
-      <span class="threads-quote"><span class="hang">“</span>If The Odyssey is showing us anything, it’s that people will argue about the historical accuracy of a myth”</span>
+      <span class="threads-quote" id="threads-quote"><span class="hang">“</span><span class="threads-quote-text">Top bun implies the existence of a Bottom bun</span>”</span>
     </a>
   </section>
 
@@ -277,6 +277,26 @@
 
   reveal.addEventListener("touchend", hide);
   reveal.addEventListener("touchcancel", hide);
+})();
+
+(function () {
+  var postLink = document.getElementById("threads-post");
+  var quoteText = document.querySelector(".threads-quote-text");
+  if (!postLink || !quoteText) return;
+
+  fetch("/api/threads-latest")
+    .then(function (response) {
+      if (!response.ok) throw new Error("Threads fetch failed");
+      return response.json();
+    })
+    .then(function (data) {
+      if (!data || !data.text || !data.url) return;
+      quoteText.textContent = data.text.replace(/\s+/g, " ").trim();
+      postLink.href = data.url;
+    })
+    .catch(function () {
+      /* Keep the static fallback quote if the API is unavailable. */
+    });
 })();
 </script>
 
