@@ -24,28 +24,32 @@ function isOriginalPost(postChunk) {
   );
 }
 
-function parseLatestOriginalPost(html) {
+function parseLatestOriginalPosts(html, limit = 3) {
   const start = html.indexOf('"thread_items":[');
-  if (start === -1) return null;
+  if (start === -1) return [];
 
   const chunks = html.slice(start).split('"parent_post_unavailable_reason"').slice(1);
+  const posts = [];
+  const seen = new Set();
 
   for (const chunk of chunks) {
+    if (posts.length >= limit) break;
     if (!isOriginalPost(chunk)) continue;
 
     const text = extractPlaintext(chunk).trim();
     const code = chunk.match(/"code":"([^"]+)"/)?.[1];
 
-    if (!text || !code) continue;
+    if (!text || !code || seen.has(code)) continue;
+    seen.add(code);
 
-    return {
+    posts.push({
       text,
       code,
       url: `https://www.threads.com/@${THREADS_USERNAME}/post/${code}`,
-    };
+    });
   }
 
-  return null;
+  return posts;
 }
 
 module.exports = async function handler(req, res) {
@@ -67,18 +71,19 @@ module.exports = async function handler(req, res) {
     }
 
     const html = await response.text();
-    const post = parseLatestOriginalPost(html);
+    const posts = parseLatestOriginalPosts(html, 3);
 
-    if (!post) {
-      return res.status(404).json({ error: "No original post found" });
+    if (!posts.length) {
+      return res.status(404).json({ error: "No original posts found" });
     }
 
     res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=900");
     return res.status(200).json({
       username: THREADS_USERNAME,
-      text: post.text,
-      url: post.url,
-      code: post.code,
+      posts,
+      text: posts[0].text,
+      url: posts[0].url,
+      code: posts[0].code,
     });
   } catch (error) {
     return res.status(500).json({

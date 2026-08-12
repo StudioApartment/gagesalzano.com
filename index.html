@@ -58,14 +58,14 @@
   <link rel="preload" href="fonts/DalaFlodaArabic-Medium-Web.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/Cargo-DiatypePlusVariable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/PPEditorialNew-Italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=242">
+  <link rel="stylesheet" href="css/styles.css?v=248">
 </head>
 <body>
 
 <div class="container">
   <section class="intro">
     <div class="intro-header">
-      <p class="intro-lede"><span class="lede-line"><span class="lede-name">Gage Salzano</span> <em class="lede-copy">is a graphic individual in</em> Huge Dork City.</span><span class="lede-line"><em class="lede-copy">His branding co is</em> <a class="lede-link" href="https://www.studioapt.co" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon lede-icon--studio" aria-hidden="true"><img src="images/studioapt-mark.png" alt=""></span><span class="lede-title">Studio Apt</span></span></a>.</span><span class="lede-line"><em class="lede-copy">He is a creative partner for</em> <a class="lede-link" href="https://www.ruca.co" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon" aria-hidden="true"><img src="images/org-ruca.png" alt=""></span><span class="lede-title">Ruca</span></span></a>, <a class="lede-link" href="https://homelessfund.org" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon lede-icon--hcef" aria-hidden="true"><img src="images/org-hcef.png?v=4" alt=""></span><span class="lede-title">HCEF Pittsburgh</span></span></a>, <a class="lede-link" href="https://www.stridekick.com" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon" aria-hidden="true"><img src="images/org-stridekick.jpg" alt=""></span><span class="lede-title">Stridekick</span></span></a> <em class="lede-copy">&</em> <a class="lede-link" href="https://www.enough2026.org" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon" aria-hidden="true"><img src="images/org-enough.png?v=2" alt=""></span><span class="lede-title">ENOUGH</span></span></a> <em class="lede-copy">& anyone that wants to make the world a better place.</em></span></p>
+      <p class="intro-lede"><span class="lede-line"><span class="lede-name">Gage Salzano</span> <em class="lede-copy">is a graphic agitator based out of</em> <span class="lede-city" id="lede-city" aria-live="polite">Huge Dork City</span>.</span><span class="lede-line"><em class="lede-copy">His branding co is</em> <a class="lede-link" href="https://www.studioapt.co" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon lede-icon--studio" aria-hidden="true"><img src="images/studioapt-mark.png" alt=""></span><span class="lede-title">Studio Apt</span></span></a>.<br><em class="lede-copy">1/3 part of creative collective</em> <a class="lede-link" href="https://coworking.fyi" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon lede-icon--coworking" aria-hidden="true"><img src="images/org-coworking.png?v=3" alt=""></span><span class="lede-title">Co–Working</span></span></a>.</span><span class="lede-line"><em class="lede-copy">He is a creative partner for</em> <a class="lede-link" href="https://www.ruca.co" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon" aria-hidden="true"><img src="images/org-ruca.png" alt=""></span><span class="lede-title">Ruca</span></span></a>, <a class="lede-link" href="https://homelessfund.org" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon lede-icon--hcef" aria-hidden="true"><img src="images/org-hcef.png?v=4" alt=""></span><span class="lede-title">HCEF Pittsburgh</span></span></a>, <a class="lede-link" href="https://www.stridekick.com" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon" aria-hidden="true"><img src="images/org-stridekick.jpg" alt=""></span><span class="lede-title">Stridekick</span></span></a> <em class="lede-copy">&</em> <a class="lede-link" href="https://www.enough2026.org" target="_blank" rel="noopener"><span class="lede-mark"><span class="lede-icon" aria-hidden="true"><img src="images/org-enough.png?v=2" alt=""></span><span class="lede-title">ENOUGH</span></span></a> <em class="lede-copy">& anyone that wants to make the world a better place.</em></span></p>
       <p class="closing-prompt"><a href="mailto:me@gagesalzano.com">Is that you?</a></p>
     </div>
 
@@ -96,7 +96,7 @@
           <span class="threads-handle">gagesalzano</span>
         </span>
       </span>
-      <span class="threads-quote" id="threads-quote"><span class="hang">“</span><span class="threads-quote-text">Top bun implies the existence of a Bottom bun</span>”</span>
+      <span class="threads-quote" id="threads-quote"><span class="hang">“</span><span class="threads-quote-text" aria-live="polite">Top bun implies the existence of a Bottom bun</span>”</span>
     </a>
   </section>
 
@@ -290,13 +290,49 @@
       return response.json();
     })
     .then(function (data) {
-      if (!data || !data.text || !data.url) return;
-      quoteText.textContent = data.text.replace(/\s+/g, " ").trim();
-      postLink.href = data.url;
+      var posts = data.posts || (data.text && data.url ? [{ text: data.text, url: data.url }] : []);
+      if (!posts.length) return;
+
+      function showPost(index) {
+        var post = posts[index];
+        quoteText.textContent = post.text.replace(/\s+/g, " ").trim();
+        postLink.href = post.url;
+      }
+
+      showPost(0);
+
+      if (posts.length < 2) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      var index = 0;
+      setInterval(function () {
+        index = (index + 1) % posts.length;
+        showPost(index);
+      }, 2000);
     })
     .catch(function () {
       /* Keep the static fallback quote if the API is unavailable. */
     });
+})();
+
+(function () {
+  var cityEl = document.getElementById("lede-city");
+  if (!cityEl) return;
+
+  var cities = [
+    "Huge Dork City",
+    "New Jack City",
+    "New York City",
+    "The Big Apple"
+  ];
+  var index = 0;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  setInterval(function () {
+    index = (index + 1) % cities.length;
+    cityEl.textContent = cities[index];
+  }, 2800);
 })();
 </script>
 

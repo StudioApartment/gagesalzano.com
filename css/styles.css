@@ -359,6 +359,12 @@ h2 {
   margin-right: 0.18em;
 }
 
+.lede-city {
+  font-style: normal;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
 .lede-line {
   display: block;
 }
@@ -450,6 +456,14 @@ h2 {
 
 .lede-icon--studio {
   background: #111;
+}
+
+.lede-icon--coworking {
+  background: #f0ebe3;
+}
+
+.lede-icon--coworking img {
+  object-fit: contain;
 }
 
 .lede-icon--hcef img {
