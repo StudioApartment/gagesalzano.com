@@ -138,7 +138,7 @@ a:active { opacity: 0.7; }
 .intro-portrait {
   grid-area: portrait;
   min-width: 0;
-  padding-left: clamp(0rem, 2vw, 2.5rem);
+  padding-left: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -147,8 +147,9 @@ a:active { opacity: 0.7; }
 .portrait-figure {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   margin: 0;
+  width: 100%;
 }
 
 .portrait-reveal {
@@ -505,7 +506,7 @@ hr {
 }
 
 .section-title--highlights {
-  margin-top: clamp(2.5rem, 6vw, 5rem);
+  margin-top: var(--page-pad-top);
 }
 
 .clients-grid {
