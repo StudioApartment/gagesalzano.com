@@ -52,7 +52,7 @@
 
 :root {
   --page-pad-x: clamp(1.25rem, 4vw, 5rem);
-  --page-pad-top: clamp(1.75rem, 5vw, 5rem);
+  --page-pad-top: var(--page-pad-x);
   --page-pad-bottom: clamp(1.5rem, 3vw, 2rem);
   --intro-gap: clamp(1.5rem, 4vw, 5rem);
   --intro-line-gap: 1.5rem;
