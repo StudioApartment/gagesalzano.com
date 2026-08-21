@@ -24,7 +24,7 @@ function isOriginalPost(postChunk) {
   );
 }
 
-function parseLatestOriginalPosts(html, limit = 3) {
+function parseLatestOriginalPosts(html, limit = 5) {
   const start = html.indexOf('"thread_items":[');
   if (start === -1) return [];
 
@@ -33,11 +33,11 @@ function parseLatestOriginalPosts(html, limit = 3) {
   const seen = new Set();
 
   for (const chunk of chunks) {
-    if (posts.length >= limit) break;
     if (!isOriginalPost(chunk)) continue;
 
     const text = extractPlaintext(chunk).trim();
     const code = chunk.match(/"code":"([^"]+)"/)?.[1];
+    const takenAt = Number(chunk.match(/"taken_at":(\d+)/)?.[1] || 0);
 
     if (!text || !code || seen.has(code)) continue;
     seen.add(code);
@@ -45,11 +45,23 @@ function parseLatestOriginalPosts(html, limit = 3) {
     posts.push({
       text,
       code,
+      takenAt,
       url: `https://www.threads.com/@${THREADS_USERNAME}/post/${code}`,
     });
   }
 
-  return posts;
+  return posts
+    .sort(function (a, b) {
+      return b.takenAt - a.takenAt;
+    })
+    .slice(0, limit)
+    .map(function (post) {
+      return {
+        text: post.text,
+        code: post.code,
+        url: post.url,
+      };
+    });
 }
 
 module.exports = async function handler(req, res) {
@@ -71,13 +83,13 @@ module.exports = async function handler(req, res) {
     }
 
     const html = await response.text();
-    const posts = parseLatestOriginalPosts(html, 3);
+    const posts = parseLatestOriginalPosts(html, 5);
 
     if (!posts.length) {
       return res.status(404).json({ error: "No original posts found" });
     }
 
-    res.setHeader("Cache-Control", "s-maxage=300, stale-while-revalidate=900");
+    res.setHeader("Cache-Control", "s-maxage=120, stale-while-revalidate=300");
     return res.status(200).json({
       username: THREADS_USERNAME,
       posts,

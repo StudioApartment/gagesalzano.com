@@ -343,7 +343,7 @@ h2 {
 
 .lede-name {
   font-family: inherit;
-  font-style: normal;
+  font-style: italic;
   font-weight: 400;
   font-size: 1.1em;
   letter-spacing: -0.01em;
@@ -351,7 +351,7 @@ h2 {
 }
 
 .lede-copy {
-  font-style: italic;
+  font-style: normal;
   font-weight: 400;
 }
 
@@ -360,7 +360,7 @@ h2 {
 }
 
 .lede-city {
-  font-style: normal;
+  font-style: italic;
   font-weight: 400;
   white-space: nowrap;
 }
@@ -420,7 +420,7 @@ h2 {
 
 .lede-title {
   display: inline;
-  font-style: normal;
+  font-style: italic;
 }
 
 .lede-icon {
@@ -815,7 +815,7 @@ hr {
 .closing-prompt {
   font-family: "Diatype Variable", sans-serif;
   font-size: 0.9rem;
-  margin-top: var(--intro-line-gap);
+  margin-top: 0.45rem;
   margin-bottom: 0;
 }
 
