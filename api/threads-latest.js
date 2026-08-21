@@ -8,6 +8,27 @@ function decodeJsonString(value) {
 }
 
 function extractPlaintext(postChunk) {
+  const fragmentsStart = postChunk.indexOf('"text_fragments":');
+  if (fragmentsStart !== -1) {
+    const replyStart = postChunk.indexOf('"is_reply":', fragmentsStart);
+    const block =
+      replyStart !== -1
+        ? postChunk.slice(fragmentsStart, replyStart)
+        : postChunk.slice(fragmentsStart, fragmentsStart + 10000);
+
+    const parts = [];
+    const fragmentPlaintext = /"plaintext":"((?:\\.|[^"\\])*)"/g;
+    let match;
+
+    while ((match = fragmentPlaintext.exec(block)) !== null) {
+      parts.push(decodeJsonString(match[1]));
+    }
+
+    if (parts.length) {
+      return parts.join("");
+    }
+  }
+
   const match = postChunk.match(/"plaintext":"((?:\\.|[^"\\])*)"/);
   return match ? decodeJsonString(match[1]) : "";
 }
