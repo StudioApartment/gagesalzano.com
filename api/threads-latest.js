@@ -24,7 +24,7 @@ function isOriginalPost(postChunk) {
   );
 }
 
-function parseLatestOriginalPosts(html, limit = 5) {
+function parseLatestOriginalPosts(html, limit = 3) {
   const start = html.indexOf('"thread_items":[');
   if (start === -1) return [];
 
@@ -83,7 +83,7 @@ module.exports = async function handler(req, res) {
     }
 
     const html = await response.text();
-    const posts = parseLatestOriginalPosts(html, 5);
+    const posts = parseLatestOriginalPosts(html, 3);
 
     if (!posts.length) {
       return res.status(404).json({ error: "No original posts found" });
