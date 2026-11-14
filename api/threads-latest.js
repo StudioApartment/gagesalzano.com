@@ -1,5 +1,6 @@
 const THREADS_USERNAME = "gagesalzano";
 const PROFILE_URL = `https://www.threads.com/@${THREADS_USERNAME}`;
+const CAROUSEL_LIMIT = 3;
 const USER_AGENT =
   "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)";
 
@@ -7,7 +8,20 @@ function decodeJsonString(value) {
   return JSON.parse(`"${value}"`);
 }
 
-function extractPlaintext(postChunk) {
+function extractPostText(postChunk) {
+  const codeMatch = postChunk.match(/"code":"([^"]+)"/);
+  if (codeMatch) {
+    const codeIdx = postChunk.indexOf(`"code":"${codeMatch[1]}"`);
+    const nearCode = postChunk.slice(Math.max(0, codeIdx - 4000), codeIdx + 800);
+    const captionMatch = nearCode.match(
+      /"caption":\{"text":"((?:\\.|[^"\\])*)"/
+    );
+    if (captionMatch) {
+      const caption = decodeJsonString(captionMatch[1]).trim();
+      if (caption) return caption;
+    }
+  }
+
   const fragmentsStart = postChunk.indexOf('"text_fragments":');
   if (fragmentsStart !== -1) {
     const replyStart = postChunk.indexOf('"is_reply":', fragmentsStart);
@@ -45,7 +59,7 @@ function isOriginalPost(postChunk) {
   );
 }
 
-function parseLatestOriginalPosts(html, limit = 3) {
+function parseLatestOriginalPosts(html, limit = CAROUSEL_LIMIT) {
   const start = html.indexOf('"thread_items":[');
   if (start === -1) return [];
 
@@ -56,7 +70,7 @@ function parseLatestOriginalPosts(html, limit = 3) {
   for (const chunk of chunks) {
     if (!isOriginalPost(chunk)) continue;
 
-    const text = extractPlaintext(chunk).trim();
+    const text = extractPostText(chunk).trim();
     const code = chunk.match(/"code":"([^"]+)"/)?.[1];
     const takenAt = Number(chunk.match(/"taken_at":(\d+)/)?.[1] || 0);
 
@@ -81,6 +95,7 @@ function parseLatestOriginalPosts(html, limit = 3) {
         text: post.text,
         code: post.code,
         url: post.url,
+        takenAt: post.takenAt,
       };
     });
 }
@@ -104,7 +119,7 @@ module.exports = async function handler(req, res) {
     }
 
     const html = await response.text();
-    const posts = parseLatestOriginalPosts(html, 3);
+    const posts = parseLatestOriginalPosts(html, CAROUSEL_LIMIT);
 
     if (!posts.length) {
       return res.status(404).json({ error: "No original posts found" });
